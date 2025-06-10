@@ -1,19 +1,14 @@
-from chatterbot import ChatBot
+import tensorflow as tf
+from chatbot_train import response
+from detect import main
 
-from chatterbot.trainers import ChatterBotCorpusTrainer
-
-chatbot=ChatBot('bro')
-
-# TODO: Train with custom dataset
-trainer = ChatterBotCorpusTrainer(chatbot)
-
-trainer.train("chatterbot.corpus.english.greetings",
-              "chatterbot.corpus.english.conversations" )
- 
-while True:
-       user_input = input("You: ")
-       if user_input.lower() == 'bye':
-           print("Byeeeeee")
-           break
-       response = chatbot.get_response(user_input)
-       print("Bro:", response)
+print("Note: Enter 'quit' to break the loop.")   
+while True:                                                
+    query = input('You: ')
+    if query.lower() == 'quit':
+        break
+    bot_response, typ = response(query)
+    if typ == 'ActionQuery':
+        main('../testdata/sofa2.webp', query)
+    print('Geek: {} -- TYPE: {}'.format(bot_response, typ))
+    print()
